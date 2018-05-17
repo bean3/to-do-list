@@ -1,6 +1,5 @@
 import sqlite3
 import click
-import sys
 import re
 
 def create_db():
@@ -14,8 +13,7 @@ def create_db():
                 id integer primary key autoincrement,
                 what text not null,
                 due text not null,
-                finished integer default 0,
-                validation integer);"""
+                finished integer default 0);"""
     
     cur.execute(table_create_sql)
 
@@ -65,7 +63,7 @@ def exe_mod(mod):
         
         du = str(input("When is the due date? : "))
         du = du if du else row[0][2] # Check if inputs are empty; nothing will change if input is empty
-        regular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})")
+        regular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})[/](\d{2})[:](\d{2})")
         while True:
             while len(du) != 16:
                 du = str(input("When is the due date? : "))
@@ -114,13 +112,15 @@ def print_list(p_opt):
     rows = cur.fetchall()
 
     if rows:
+
         print(
             "\n"
             "                   P O T A T O F I E L D                 \n"
             "=========================================================\n"
-            "| No.|   Description   |        Due       |   Status    |\n"
+            "| No.|   Description   |       Due        |   Status    |\n"
             "========================================================="
             )
+
         for row in rows:
 
             #Get the columns
@@ -141,44 +141,9 @@ def print_list(p_opt):
                 )
 
         print(
-
-        "=========================================================\n"
-        #Dummy line, but planning to make pages
-        "                                               Page 01/01 \n")
-
-    print(
-        "\n"
-        "                    P O T A T O F I E L D                  \n"
-        "============================================================\n"
-        "| No.|   Description   |         Due         |   Status    |\n"
-        "============================================================"
-        )
-    for row in rows:
-
-        #Get the columns
-        num = row[0]
-        wh = row[1]
-        du = row[2]
-        fin = row[3]
-
-        print(
-            #Print the number of plan; Max : 2-digit number
-            "|", str(num).ljust(2),
-            #Print @#$^... if the description is too long to print; Max : 15 chars
-            "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
-            #Print the due as it is since the due has its own format; YYYY-MM-DD
-            "|", du,
-            #Print whether the plan is done or not
-            "| Done        |" if fin==1 else "| In progress |"
-            )
-
-        print(
-
-        "============================================================\n"
-        #Dummy line, but planning to make pages
-        "                                                 Page 01/01 \n")
-
-
+            "=========================================================\n"
+            #Dummy line, but planning to make pages
+            "                                              Page 01/01 \n")
 
     else:
         print("Nothing to print :(\n")
@@ -205,7 +170,6 @@ def run(mk, rm, mod, p_opt):
         exe_mod(mod)
     elif p_opt:
         print_option = p_opt
-
 
     print_list(print_option)
     conn.close()
