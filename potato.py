@@ -112,6 +112,7 @@ def print_list(p_opt):
 
     cur.execute(check_print_option(p_opt))
     rows = cur.fetchall()
+
     if rows:
         print(
             "\n"
@@ -144,6 +145,39 @@ def print_list(p_opt):
         "=========================================================\n"
         #Dummy line, but planning to make pages
         "                                               Page 01/01 \n")
+
+    print(
+        "\n"
+        "                    P O T A T O F I E L D                  \n"
+        "============================================================\n"
+        "| No.|   Description   |         Due         |   Status    |\n"
+        "============================================================"
+        )
+    for row in rows:
+
+        #Get the columns
+        num = row[0]
+        wh = row[1]
+        du = row[2]
+        fin = row[3]
+
+        print(
+            #Print the number of plan; Max : 2-digit number
+            "|", str(num).ljust(2),
+            #Print @#$^... if the description is too long to print; Max : 15 chars
+            "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
+            #Print the due as it is since the due has its own format; YYYY-MM-DD
+            "|", du,
+            #Print whether the plan is done or not
+            "| Done        |" if fin==1 else "| In progress |"
+            )
+
+        print(
+
+        "============================================================\n"
+        #Dummy line, but planning to make pages
+        "                                                 Page 01/01 \n")
+
 
 
     else:
