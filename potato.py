@@ -49,6 +49,25 @@ def exe_rm(rm):
     cur.execute(sql, task)
     conn.commit()
 
+def exe_find(find):
+
+    if(find == "%"):
+        print("The corresponding result does not exist")
+    else:
+        sql = "SELECT * FROM todo WHERE what LIKE '%"+find+"%'"
+        cur.execute(sql)
+        rows = cur.fetchall()
+        if rows:
+            for row in rows:
+                for n in range(0,4):
+                    if(n<3):
+                        print(" | " + str(row[n]), end="")
+                    else:
+                        print(" | Done |" if row[3]==1 else " | In progress |", end="")
+                print("")
+        else:
+            print("The corresponding result does not exist")
+
 def exe_mod(mod):
 
     cur.execute("select * from todo where 1")
@@ -154,10 +173,11 @@ def print_list(p_opt):
 @click.option('--mk', nargs=2, type=str, help='Make a new plan: [descr.] [due]')
 @click.option('--rm', type=int, help='Remove your plan: [number]')
 @click.option('--mod', help='Modify your plan: [number]')
+@click.option('--find', type=str, help='find your plan: [text]')
 #Printing options
 @click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
 @click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
-def run(mk, rm, mod, p_opt):
+def run(mk, rm, mod, p_opt, find):
 
     create_db()
     print_option = None
@@ -169,6 +189,9 @@ def run(mk, rm, mod, p_opt):
         exe_rm(rm)
     elif mod:
         exe_mod(mod)
+    elif find:
+    	exe_find(find)
+    	return
     elif p_opt:
         print_option = p_opt
 
