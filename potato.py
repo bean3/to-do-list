@@ -40,7 +40,7 @@ def exe_mod(mod):
     cur.execute("select * from todo where id=?", (mod,))
     row = cur.fetchall()
 
-    if row and mod<=len(rows) and mod > 0:
+    if mod.isdigit() and row and int(mod) <= len(rows) and mod > '0':
         print("\n(Nothing will change if you enter nothing.)")
 
         wh = str(input("What's your new plan?: "))
@@ -137,7 +137,7 @@ def print_list(p_opt):
 #Basic options
 @click.option('--mk', nargs=2, type=str, help='Make a new plan: [descr.] [due]')
 @click.option('--rm', type=int, help='Remove your plan: [number]')
-@click.option('--mod', type=int, help='Modify your plan: [number]')
+@click.option('--mod', help='Modify your plan: [number]')
 #Printing options
 @click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
 @click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
