@@ -1,6 +1,7 @@
 import sqlite3
 import click
 import re
+import sys
 
 def create_db():
 
@@ -23,11 +24,11 @@ def exe_mk(mk):
     regular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})[/](\d{2})[:](\d{2})")
     while True:
         if len(due) != 16:
-            print("Please type in the right format : YYYY-MM-DD HH:MM")
+            print("Please type in the right format : YYYY-MM-DD/HH:MM")
             sys.exit(1)
         match = regular.match(due)
         if match == None:
-            print("Please type in the right format : YYYY-MM-DD HH:MM")
+            print("Please type in the right format : YYYY-MM-DD/HH:MM")
             sys.exit(1)
         else:
             break
@@ -66,10 +67,10 @@ def exe_mod(mod):
         regular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})[/](\d{2})[:](\d{2})")
         while True:
             while len(du) != 16:
-                du = str(input("When is the due date? : "))
+                du = str(input("Please type in the right format : YYYY-MM-DD/HH:MM"))
             match = regular.match(du)
             if match == None:
-                du = str(input("When is the due date? : "))
+                du = str(input("Please type in the right format : YYYY-MM-DD/HH:MM"))
             else:
                 break
         
