@@ -79,10 +79,17 @@ def print_list(p_opt):
 
         print(
             "\n"
+
+            "                    P O T A T O F I E L D                  \n"
+            "============================================================\n"
+            "| No.|   Description   |         Due         |   Status    |\n"
+            "============================================================"
+
             "               P O T A T O F I E L D               \n"
             "===================================================\n"
             "| No.|   Description   |    Due     |   Status    |\n"
             "==================================================="
+
             )
 
         for row in rows:
@@ -105,9 +112,15 @@ def print_list(p_opt):
                 )
 
         print(
+
+            "============================================================\n"
+            #Dummy line, but planning to make pages
+            "                                                 Page 01/01 \n")
+
             "===================================================\n"
             #Dummy line, but planning to make pages
             "                                        Page 01/01 \n")
+
 
     else:
         print("Nothing to print :(\n")
