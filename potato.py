@@ -331,6 +331,29 @@ def run(mk, rm, mod, find, det, pg, p_opt):
     elif p_opt:
         print_option = p_opt
 
+    # cur.execute("select * from todo where 1")
+    # rows = cur.fetchall()
+
+    # if rows:
+    #     for row in rows:
+    #         iregular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})")
+    #         iregular2 = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})")
+
+    #         idue = row[2]
+    #         i_match = iregular.match(idue)
+
+    #         t = datetime.datetime.now()
+    #         now = iregular2.match(str(t))
+
+    #         for i in range(1,6):
+    #             if int(i_match.group(i)) < int(now.group(i)):
+    #                 sql = "delete from todo where due = ?"
+
+    #                 cur.execute(sql, (i_match.group(0)))
+    #                 conn.commit()
+    #             elif int(i_match.group(i)) > int(now.group(i)):
+    #                 break
+
     print_list(pg, print_option)
     conn.close()
 
