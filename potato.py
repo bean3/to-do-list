@@ -1,5 +1,6 @@
 import sqlite3
 import click
+import re
 
 def create_db():
 
@@ -34,21 +35,41 @@ def exe_rm(rm):
 
 def exe_mod(mod):
 
+    cur.execute("select * from todo where 1")
+    rows = cur.fetchall()
     cur.execute("select * from todo where id=?", (mod,))
     row = cur.fetchall()
 
-    if row:
+    if mod.isdigit() and row and int(mod) <= len(rows) and mod > '0':
         print("\n(Nothing will change if you enter nothing.)")
-        wh = str(input("What's your new plan?: "))
-        du = str(input("When is the due date? : "))
-        fin = str(input("Is it finished?(Y/N) : "))
-        while(fin != 'Y' and fin != 'N'):
-            fin = str(input('Is it finished?(Y/N) : '))
-        fin = 1 if fin == "Y" else 0
 
-        #Check if inputs are empty; nothing will change if input is empty
-        wh = wh if wh else row[0][1]
-        du = du if du else row[0][2]
+        wh = str(input("What's your new plan?: "))
+        wh = wh if wh else row[0][1] # Check if inputs are empty; nothing will change if input is empty
+        
+        du = str(input("When is the due date? : "))
+        du = du if du else row[0][2] # Check if inputs are empty; nothing will change if input is empty
+        regular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})")
+        while True:
+            while len(du) != 16:
+                du = str(input("When is the due date? : "))
+            match = regular.match(du)
+            if match == None:
+                du = str(input("When is the due date? : "))
+            else:
+                break
+        
+
+        
+        fin = str(input("Is it finished?(Y/N) : "))
+        while(fin != 'Y' and fin != 'N' and fin !=''):
+            fin = str(input('Is it finished?(Y/N) : '))
+        if fin == "Y":
+            fin = 1
+        elif fin == "N":
+            fin = 0
+        else:
+            fin = fin if fin else row[0][3] # Check if inputs are empty; nothing will change if input is empty
+        
 
         sql = "update todo set what=?, due=?, finished=? where id=?"
         task = (wh, du, fin, mod)
@@ -70,35 +91,44 @@ def check_print_option(p_opt):
 
     }.get(p_opt, default)
 
-def print_list(p_opt):
+def print_list(pg, p_opt):
 
     cur.execute(check_print_option(p_opt))
     rows = cur.fetchall()
 
-    """Page settings"""
-
-    #Rows in single page
-    rows_in_pg = 10
-    #Rows in last page
-    rows_in_lpg = len(rows) % rows_in_pg
-    #Maximum page number
-    max_pg = int(len(rows) / rows_in_pg) if rows_in_lpg == 0 else len(rows) // rows_in_pg + 1
-
+    #Page settings
+    rowsinPage = 10
+    rowsinLastPage = len(rows) % rowsinPage
+    calcPageNum = len(rows) // rowsinPage #To calculate maximum page number
+    maxPageNum = calcPageNum if rowsinLastPage == 0 else calcPageNum + 1
 
     if rows:
-        print(max_pg)
-        for page in range(0, max_pg):
+
+        #Print if the pg is existing page number, else terminate
+        if pg not in range(0, maxPageNum + 1):
+            print("\nNo pages found\n")
+            return
+
+        print(
+            "\n"
+            "                  P O T A T O F I E L D                  "
+            )
+
+        for page in range(0, maxPageNum):
+
+            #Check whether the pg option was given and pg is same with page number
+            if (pg != 0 and page+1 != pg):
+                continue
+
             print(
-                    "\n"
-                    "               P O T A T O F I E L D               \n"
-                    "===================================================\n"
-                    "| No.|   Description   |    Due     |   Status    |\n"
-                    "==================================================="
-                    )
+                "=========================================================\n"
+                "| No.|   Description   |       Due        |   Status    |\n"
+                "========================================================="
+                )
 
-            count = 1
-            for row in rows[page * rows_in_pg:]:
+            rowIndex = page * rowsinPage
 
+            for row in rows[rowIndex:rowIndex + rowsinPage]:
 
                 #Get the columns
                 num = row[0]
@@ -117,28 +147,26 @@ def print_list(p_opt):
                     "| Done        |" if fin==1 else "| In progress |"
                     )
 
-                count += 1
-
-                if count == rows_in_pg + 1:    break
-
             print(
-                "===================================================\n"
-                "                                        Page"
-                "0" + str(page+1) if len(str(page)) == 1 else page
-                ,"/" + str(max_pg))
+                "=========================================================\n"
+                "                                              Page "
+                "0" + str(page + 1) if len(str(page)) == 1 else page, "/"
+                "0" + str(maxPageNum) if len(str(maxPageNum)) == 1 else maxPageNum,
+                "\n", sep = "")
 
     else:
-        print("Nothing to print :(\n")
+        print("\nNothing to print :(\n")
 
 @click.command()
 #Basic options
 @click.option('--mk', nargs=2, type=str, help='Make a new plan: [descr.] [due]')
 @click.option('--rm', type=int, help='Remove your plan: [number]')
-@click.option('--mod', type=int, help='Modify your plan: [number]')
+@click.option('--mod', help='Modify your plan: [number]')
+@click.option('--pg', type=int, default=0, help='Print the page of which you enter: [page]')
 #Printing options
 @click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
 @click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
-def run(mk, rm, mod, p_opt):
+def run(mk, rm, mod, pg, p_opt):
 
     create_db()
     print_option = None
@@ -153,7 +181,7 @@ def run(mk, rm, mod, p_opt):
     elif p_opt:
         print_option = p_opt
 
-    print_list(print_option)
+    print_list(pg, print_option)
     conn.close()
 
 if __name__ == '__main__':
