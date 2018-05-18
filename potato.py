@@ -14,6 +14,7 @@ def create_db():
                 id integer primary key autoincrement,
                 what text not null,
                 due text not null,
+                category text not null,
                 finished integer default 0);"""
     
     cur.execute(table_create_sql)
@@ -36,9 +37,9 @@ def exe_mk(mk):
 
     what = str(mk[0])
 
-    sql = "insert into todo (what, due) values (?, ?)"
-
-    cur.execute(sql, (what, due.group(0),))
+    sql = "insert into todo (what, due, category) values (?, ?, ?)"
+    category = str(mk[2])
+    cur.execute(sql, (what, due.group(0),category,))
     conn.commit()
 
 def exe_rm(rm):
@@ -59,14 +60,92 @@ def exe_find(find):
         rows = cur.fetchall()
         if rows:
             for row in rows:
-                for n in range(0,4):
-                    if(n<3):
+                for n in range(0,5):
+                    if(n<4):
                         print(" | " + str(row[n]), end="")
                     else:
                         print(" | Done |" if row[3]==1 else " | In progress |", end="")
                 print("")
         else:
             print("The corresponding result does not exist")
+
+
+
+def exe_ctg(ct):#function that print only category that inserted. ex) work -> only print work categorylist
+    
+    sql = "select * from todo where category=?"
+    cur.execute(sql,(ct,))
+    rows = cur.fetchall()
+    if rows:
+        print(
+                   "\n"
+                "               P O T A T O F I E L D                                 \n"
+                "=====================================================================\n"
+                "| No.|   Description   |        Due      |   category     |  Status  |\n"
+                "====================================================================="
+                )
+
+        for row in rows:
+
+            #Get the columns
+            num = row[0]
+            wh = row[1]
+            du = row[2]
+            ctg = row[3]
+            fin = row[4]
+            if(ctg ==ct):
+
+                print(
+                    #Print the number of plan; Max : 2-digit number
+                    "|", str(num).ljust(2),
+                    #Print @#$^... if the description is too long to print; Max : 15 chars
+                    "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
+                    #Print the due as it is since the due has its own format; YYYY-MM-DD
+
+                    "|", du,
+                    #print the category
+                     "|", ctg.ljust(15) if len(wh)<=15 else wh[:12] + "...",
+                    #Print whether the plan is done or not
+                    "| Done        |" if fin==1 else "| In progress |"
+                    )
+            conn.commit()
+
+        print(
+                "======================================================================\n"
+                #Dummy line, but planning to make pages
+                "                                        Page 01/01 \n")
+    else:
+        print("The corresponding lists do not exist!")
+        print("\nIf you forgot the category's name, type: python3 potato.py --cp ")
+
+def ctg_print(cp):#카테고리 전체 보여주는 함수
+    
+
+    sql = "select * from todo where 1"
+    cur.execute(sql)
+    rows = cur.fetchall()
+    print('================<category list>=============')
+    for row in rows:
+
+        #Get the columns
+        num = row[0]
+        wh = row[1]
+        du = row[2]
+        ctg = row[3]
+        fin = row[4]
+        
+
+        print(
+         
+             ctg.ljust(15) 
+           
+            )
+        conn.commit()
+
+    print('===========================================')
+    print('\nTo see only the values for a particular category, enter the following command')
+    print('type:python3 potato.py --ct [category name]')
+
 
 def exe_mod(mod):
 
@@ -124,6 +203,7 @@ def check_print_option(p_opt):
     'unfinished': "select * from todo where finished=0",
     'finished': "select * from todo where finished=1"
 
+
     }.get(p_opt, default)
 
 def print_list(p_opt):
@@ -135,10 +215,10 @@ def print_list(p_opt):
 
         print(
             "\n"
-            "                   P O T A T O F I E L D                 \n"
-            "=========================================================\n"
-            "| No.|   Description   |       Due        |   Status    |\n"
-            "========================================================="
+            "               P O T A T O F I E L D                                 \n"
+            "=====================================================================\n"
+            "| No.|   Description   |        Due      |   category     |  Status  |\n"
+            "====================================================================="
             )
 
         for row in rows:
@@ -147,7 +227,8 @@ def print_list(p_opt):
             num = row[0]
             wh = row[1]
             du = row[2]
-            fin = row[3]
+            ctg = row[3]
+            fin = row[4]
 
             print(
                 #Print the number of plan; Max : 2-digit number
@@ -156,12 +237,14 @@ def print_list(p_opt):
                 "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
                 #Print the due as it is since the due has its own format; YYYY-MM-DD
                 "|", du,
+                #Print the category 
+                "|", ctg.ljust(15) if len(wh)<=15 else wh[:10] + "...",
                 #Print whether the plan is done or not
                 "| Done        |" if fin==1 else "| In progress |"
                 )
 
         print(
-            "=========================================================\n"
+            "=====================================================================\n"
             #Dummy line, but planning to make pages
             "                                              Page 01/01 \n")
 
@@ -170,14 +253,16 @@ def print_list(p_opt):
 
 @click.command()
 #Basic options
-@click.option('--mk', nargs=2, type=str, help='Make a new plan: [descr.] [due]')
+@click.option('--mk', nargs=3, type=str, help='Make a new plan: [descr.] [due] [category]')
 @click.option('--rm', type=int, help='Remove your plan: [number]')
 @click.option('--mod', help='Modify your plan: [number]')
 @click.option('--find', type=str, help='find your plan: [text]')
+@click.option('--ct', type=str, help='print only category that you inserted')
+@click.option('--cp',  'cp',flag_value='cp',help='print all your category that have')
 #Printing options
 @click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
 @click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
-def run(mk, rm, mod, p_opt, find):
+def run(mk, rm, mod, cp, ct, p_opt, find):
 
     create_db()
     print_option = None
@@ -189,6 +274,12 @@ def run(mk, rm, mod, p_opt, find):
         exe_rm(rm)
     elif mod:
         exe_mod(mod)
+    elif cp:
+        ctg_print(cp)
+        return
+    elif ct:
+        exe_ctg(ct)
+        return
     elif find:
     	exe_find(find)
     	return
