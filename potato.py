@@ -15,7 +15,7 @@ def create_db():
                 id integer primary key autoincrement,
                 what text not null,
                 due text not null,
-                category text,
+                category text not null,
                 finished integer default 0);"""
     
     cur.execute(table_create_sql)
