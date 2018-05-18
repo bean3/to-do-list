@@ -2,6 +2,7 @@ import sqlite3
 import click
 import re
 import sys
+import datetime
 
 def create_db():
 
@@ -33,7 +34,19 @@ def exe_mk(mk):
             sys.exit(1)
         else:
             break
+
+    s = datetime.datetime.now()
+    regular2 = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})")
+    n = regular2.match(str(s))
+
     due = regular.match(mk[1])
+
+    for i in range(1,6):
+        if int(due.group(i)) < int(n.group(i)):
+            print("This todo is not valid!")
+            sys.exit(1)
+        elif int(int(due.group(i)) > int(n.group(i))):
+            break
 
     what = str(mk[0])
 
@@ -81,7 +94,7 @@ def exe_ctg(ct):#function that print only category that inserted. ex) work -> on
                    "\n"
                 "               P O T A T O F I E L D                                 \n"
                 "=====================================================================\n"
-                "| No.|   Description   |        Due      |   category     |  Status  |\n"
+                "| No.|   Description   |        Due       |    category     |  Status  |\n"
                 "====================================================================="
                 )
 
@@ -104,7 +117,7 @@ def exe_ctg(ct):#function that print only category that inserted. ex) work -> on
 
                     "|", du,
                     #print the category
-                     "|", ctg.ljust(15) if len(wh)<=15 else wh[:12] + "...",
+                    "|", ctg.ljust(15) if len(wh)<=15 else wh[:12] + "...",
                     #Print whether the plan is done or not
                     "| Done        |" if fin==1 else "| In progress |"
                     )
@@ -235,7 +248,7 @@ def print_list(p_opt):
                 "|", str(num).ljust(2),
                 #Print @#$^... if the description is too long to print; Max : 15 chars
                 "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
-                #Print the due as it is since the due has its own format; YYYY-MM-DD
+                #Print the due as it is since the due has its own format; YYYY-MM-DD/HH:MM
                 "|", du,
                 #Print the category 
                 "|", ctg.ljust(15) if len(wh)<=15 else wh[:10] + "...",
@@ -285,6 +298,29 @@ def run(mk, rm, mod, cp, ct, p_opt, find):
     	return
     elif p_opt:
         print_option = p_opt
+
+    cur.execute("select * from todo where 1")
+    rows = cur.fetchall()
+
+    # if rows:
+    #     for row in rows:
+    #         iregular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})")
+    #         iregular2 = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})")
+
+    #         idue = row[2]
+    #         i_match = iregular.match(idue)
+
+    #         t = datetime.datetime.now()
+    #         now = iregular2.match(str(t))
+
+    #         for i in range(1,6):
+    #             if int(i_match.group(i)) < int(now.group(i)):
+    #                 sql = "delete from todo where due = ?"
+
+    #                 cur.execute(sql, (i_match.group(0)))
+    #                 conn.commit()
+    #             elif int(i_match.group(i)) > int(now.group(i)):
+    #                 break
 
     print_list(print_option)
     conn.close()
