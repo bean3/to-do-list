@@ -66,99 +66,108 @@ def exe_rm(rm):
 def exe_find(find):
 
     if(find == "%"):
-        print("The corresponding result does not exist")
+        print("No matches found")
+
     else:
-        sql = "SELECT * FROM todo WHERE what LIKE '%"+find+"%'"
-        cur.execute(sql)
+        cur.execute("select * from todo where what like '%" + find + "%'")
         rows = cur.fetchall()
+
         if rows:
-            for row in rows:
-                for n in range(0,5):
-                    if(n<4):
-                        print(" | " + str(row[n]), end="")
-                    else:
-                        print(" | Done |" if row[3]==1 else " | In progress |", end="")
-                print("")
+            while True:
+                print_find_result(rows)
+
+                num = input("Enter the number of plan you want to see details (0 : Exit) : ")
+                while num.isdigit() != True:
+                    num = input("Enter the number of plan you want to see details (0 : Exit) : ")
+
+                if num == '0':
+                     break
+                else:
+                     print_detail(num)
+                     input("Press Enter to continue...")
+
         else:
-            print("The corresponding result does not exist")
+            print("No matches found")
 
+def print_find_result(rows):
 
+    print(
+        "\n",
+        len(rows), " matches found\n"
+        "\n"
+        "No. | Description\n"
+        "===================================================", sep = ""
+        )
 
-def exe_ctg(ct):#function that print only category that inserted. ex) work -> only print work categorylist
-    
-    sql = "select * from todo where category=?"
-    cur.execute(sql,(ct,))
-    rows = cur.fetchall()
-    if rows:
-        print(
-                   "\n"
-                "               P O T A T O F I E L D                                 \n"
-                "=====================================================================\n"
-                "| No.|   Description   |        Due       |    category     |  Status  |\n"
-                "====================================================================="
-                )
-
-        for row in rows:
-
-            #Get the columns
-            num = row[0]
-            wh = row[1]
-            du = row[2]
-            ctg = row[3]
-            fin = row[4]
-            if(ctg ==ct):
-
-                print(
-                    #Print the number of plan; Max : 2-digit number
-                    "|", str(num).ljust(2),
-                    #Print @#$^... if the description is too long to print; Max : 15 chars
-                    "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
-                    #Print the due as it is since the due has its own format; YYYY-MM-DD
-
-                    "|", du,
-                    #print the category
-                    "|", ctg.ljust(15) if len(wh)<=15 else wh[:12] + "...",
-                    #Print whether the plan is done or not
-                    "| Done        |" if fin==1 else "| In progress |"
-                    )
-            conn.commit()
-
-        print(
-                "======================================================================\n"
-                #Dummy line, but planning to make pages
-                "                                        Page 01/01 \n")
-    else:
-        print("The corresponding lists do not exist!")
-        print("\nIf you forgot the category's name, type: python3 potato.py --cp ")
-
-def ctg_print(cp):#카테고리 전체 보여주는 함수
-    
-
-    sql = "select * from todo where 1"
-    cur.execute(sql)
-    rows = cur.fetchall()
-    print('================<category list>=============')
     for row in rows:
+
+        #You can see only 2 informations before using plan_detail function
+        num = row[0]
+        wh = row[1]
+
+        print(
+            str(num).ljust(3) + " | ",
+            wh if len(wh) <= 45 else wh[:42] + "...", sep = ""
+            )
+
+    print("===================================================")
+
+def print_detail(num):
+
+    cur.execute("select * from todo where id=?", (num,))
+    row = cur.fetchall()
+
+    if row:
+        row = row[0]
 
         #Get the columns
         num = row[0]
         wh = row[1]
         du = row[2]
-        ctg = row[3]
+        cat = row[3]
         fin = row[4]
-        
 
         print(
-         
-             ctg.ljust(15) 
-           
-            )
-        conn.commit()
+            "\nNo. ", num,
+            "\nDescription : ", wh,
+            "\nDue : ", du,
+            "\nCategory : ", cat,
+            "\nStatus : ", "Done\n" if fin == 1 else "In progress\n", sep = "")
 
-    print('===========================================')
-    print('\nTo see only the values for a particular category, enter the following command')
-    print('type:python3 potato.py --ct [category name]')
+    else:
+        print("\nInvaild number :(\n")
 
+def get_cats():
+
+    sql = "select category from todo where 1"
+    cur.execute(sql)
+    existing_cats = cur.fetchall()
+
+    #return ['cat1', 'cat2', ...]
+    return {cat[0] for cat in existing_cats}
+
+def check_cat():
+
+    print_cat_list()
+
+    existing_cats = get_cats()
+    selected_cat = input("What category do you want to see? : ")
+
+    if selected_cat in existing_cats:
+        return selected_cat
+
+    else:
+        print("There is no category named "+ selected_cat + "!")
+        return "null"
+
+def print_cat_list():
+
+    existing_cats = get_cats()
+
+    print()
+    for cat in existing_cats:
+        print("[" + cat + "]", end=" ")
+    print("\n")
 
 def exe_mod(mod):
 
@@ -167,7 +176,7 @@ def exe_mod(mod):
     cur.execute("select * from todo where id=?", (mod,))
     row = cur.fetchall()
 
-    if mod.isdigit() and row and int(mod)<=len(rows) and mod > '0':
+    if mod.isdigit() and row and int(mod) <= len(rows) and mod > '0':
         print("\n(Nothing will change if you enter nothing.)")
 
         wh = str(input("What's your new plan?: "))
@@ -175,6 +184,7 @@ def exe_mod(mod):
         
         du = str(input("When is the due date? : "))
         du = du if du else row[0][2] # Check if inputs are empty; nothing will change if input is empty
+
         regular = re.compile(r"(\d{4})[-](\d{2})[-](\d{2})[/](\d{2})[:](\d{2})")
         while True:
             while len(du) != 16:
@@ -184,8 +194,6 @@ def exe_mod(mod):
                 du = str(input("Please type in the right format : YYYY-MM-DD/HH:MM"))
             else:
                 break
-        
-
         
         fin = str(input("Is it finished?(Y/N) : "))
         while(fin != 'Y' and fin != 'N' and fin !=''):
@@ -214,68 +222,93 @@ def check_print_option(p_opt):
     return{
 
     'unfinished': "select * from todo where finished=0",
-    'finished': "select * from todo where finished=1"
-
+    'finished': "select * from todo where finished=1",
+    'category': "select * from todo where category='" + check_cat() + "'" if p_opt == 'category' else None
 
     }.get(p_opt, default)
 
-def print_list(p_opt):
+def print_list(pg, p_opt):
 
     cur.execute(check_print_option(p_opt))
     rows = cur.fetchall()
 
+    #Page settings
+    rowsinPage = 10
+    rowsinLastPage = len(rows) % rowsinPage
+    calcPageNum = len(rows) // rowsinPage #To calculate maximum page number
+    maxPageNum = calcPageNum if rowsinLastPage == 0 else calcPageNum + 1
+
     if rows:
+
+        #Print if the pg is existing page number, else terminate
+        if pg not in range(0, maxPageNum + 1):
+            print("\nNo pages found\n")
+            return
 
         print(
             "\n"
-            "               P O T A T O F I E L D                                 \n"
-            "=====================================================================\n"
-            "| No.|   Description   |        Due      |   category     |  Status  |\n"
-            "====================================================================="
+            "                         P O T A T O F I E L D                         "
             )
 
-        for row in rows:
+        for page in range(0, maxPageNum):
 
-            #Get the columns
-            num = row[0]
-            wh = row[1]
-            du = row[2]
-            ctg = row[3]
-            fin = row[4]
+            #Check whether the pg option was given and pg is same with page number
+            if (pg != 0 and page+1 != pg):
+                continue
 
             print(
-                #Print the number of plan; Max : 2-digit number
-                "|", str(num).ljust(2),
-                #Print @#$^... if the description is too long to print; Max : 15 chars
-                "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
-                #Print the due as it is since the due has its own format; YYYY-MM-DD/HH:MM
-                "|", du,
-                #Print the category 
-                "|", ctg.ljust(15) if len(wh)<=15 else wh[:10] + "...",
-                #Print whether the plan is done or not
-                "| Done        |" if fin==1 else "| In progress |"
+                "=======================================================================\n"
+                "| No. |   Description   |       Due        |  Category  |   Status    |\n"
+                "======================================================================="
                 )
 
-        print(
-            "=====================================================================\n"
-            #Dummy line, but planning to make pages
-            "                                              Page 01/01 \n")
+            rowIndex = page * rowsinPage
+
+            for row in rows[rowIndex:rowIndex + rowsinPage]:
+
+                #Get the columns
+                num = row[0]
+                wh = row[1]
+                du = row[2]
+                cat = row[3]
+                fin = row[4]
+
+                print(
+                    #Print the number of plan; Max : 2-digit number
+                    "|", str(num).ljust(3),
+                    #Print @#$^... if the description is too long to print; Max : 15 chars
+                    "|", wh.ljust(15) if len(wh)<=15 else wh[:12] + "...",
+                    #Print the due as it is since the due has its own format; YYYY-MM-DD
+                    "|", du,
+                    #Print the category in the similar way to the description
+                    "|", cat.ljust(10) if len(cat)<=10 else cat[:7] + "...",
+                    #Print whether the plan is done or not
+                    "| Done        |" if fin==1 else "| In progress |"
+                    )
+
+            print(
+                "=======================================================================\n"
+                "                                                            Page "
+                "0" + str(page + 1) if len(str(page)) == 1 else page, "/"
+                "0" + str(maxPageNum) if len(str(maxPageNum)) == 1 else maxPageNum,
+                "\n", sep = "")
 
     else:
-        print("Nothing to print :(\n")
+        print("\nNothing to print :(\n")
 
 @click.command()
 #Basic options
 @click.option('--mk', nargs=3, type=str, help='Make a new plan: [descr.] [due] [category]')
 @click.option('--rm', type=int, help='Remove your plan: [number]')
 @click.option('--mod', help='Modify your plan: [number]')
-@click.option('--find', type=str, help='find your plan: [text]')
-@click.option('--ct', type=str, help='print only category that you inserted')
-@click.option('--cp',  'cp',flag_value='cp',help='print all your category that have')
+@click.option('--find', type=str, help='Find your plan: [text]')
+@click.option('--det', type=int, help='Show details of plan: [number]')
 #Printing options
+@click.option('--pg', type=int, default=0, help='Print the page of which you enter: [page]')
+@click.option('--cat', 'p_opt', flag_value='category', help='Print the plans for category which you will select')
 @click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
 @click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
-def run(mk, rm, mod, cp, ct, p_opt, find):
+def run(mk, rm, mod, find, det, pg, p_opt):
 
     create_db()
     print_option = None
@@ -287,20 +320,19 @@ def run(mk, rm, mod, cp, ct, p_opt, find):
         exe_rm(rm)
     elif mod:
         exe_mod(mod)
-    elif cp:
-        ctg_print(cp)
-        return
-    elif ct:
-        exe_ctg(ct)
-        return
     elif find:
-    	exe_find(find)
-    	return
+        exe_find(find)
+        conn.close()
+        return
+    elif det:
+        print_detail(det)
+        conn.close()
+        return
     elif p_opt:
         print_option = p_opt
 
-    cur.execute("select * from todo where 1")
-    rows = cur.fetchall()
+    # cur.execute("select * from todo where 1")
+    # rows = cur.fetchall()
 
     # if rows:
     #     for row in rows:
@@ -322,7 +354,7 @@ def run(mk, rm, mod, cp, ct, p_opt, find):
     #             elif int(i_match.group(i)) > int(now.group(i)):
     #                 break
 
-    print_list(print_option)
+    print_list(pg, print_option)
     conn.close()
 
 if __name__ == '__main__':
