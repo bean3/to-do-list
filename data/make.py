@@ -16,6 +16,7 @@ class Make():
 	def check(self):
 		inputDue = self.inputData[1]
 		regular = re.compile(self.inputFormat1)
+		regular2 = re.compile(self.inputFormat2)
 		while True:
 			if len(inputDue) != self.inputLength:
 				print("Please type in the right format : YYYY-MM-DD/HH:MM")
@@ -27,7 +28,6 @@ class Make():
 			else:
 				break
 		timeNow = datetime.now()
-		regular2 = re.compile(self.inputFormat2)
 		match2 = regular2.match(str(timeNow))
 		inputDue = regular.match(self.inputData[1])
 		for i in range(1, 6):
