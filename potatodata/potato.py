@@ -3,13 +3,13 @@ import click
 import sys
 
 sys.path.insert(0, './data')
-from db import DB
-from make import Make
-from remove import Remove
-from modify import Modify
-from find import Find
-from detail import Detail
-from plan import Plan
+from .db import DB
+from .make import Make
+from .remove import Remove
+from .modify import Modify
+from .find import Find
+from .detail import Detail
+from .plan import Plan
 
 @click.command()
 
