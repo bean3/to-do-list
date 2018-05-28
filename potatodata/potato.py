@@ -1,8 +1,6 @@
 import sqlite3
 import click
-import sys
 
-sys.path.insert(0, './data')
 from .db import DB
 from .make import Make
 from .remove import Remove
@@ -44,7 +42,6 @@ def run(mk, rm, mod, find, det, pg, p_opt):
 		cliOption = Detail(db, det)
 	elif p_opt:
 		printOption = p_opt
-
 
 	if cliOption != None:
 		if cliOption.check():
