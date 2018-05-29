@@ -7,7 +7,7 @@ setup(
 	author = 'Team_potato',
 	url = 'https://github.com/bean3/to-do-list',
 	packages=['potatodata'],
-	python_requires = '>=3',
+	python_requires = '>=3.6',
 	entry_points={
 	    'console_scripts': [
 	        'potato=potatodata.potato:run',
