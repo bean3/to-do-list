@@ -1,5 +1,6 @@
 import sqlite3
 import re
+import getpass
 from datetime import datetime
 
 class DB():
@@ -9,7 +10,8 @@ class DB():
 		self.invalidDue = list()
 
 		#Initial settings for sqlite
-		self.conn = sqlite3.connect("potato.db")
+		username = getpass.getuser() + "/Documents"
+		self.conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
 		self.cur = self.conn.cursor()
 		table_create_sql = """create table if not exists todo (
 					id integer primary key autoincrement,
