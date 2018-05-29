@@ -1,6 +1,5 @@
 import sqlite3
 import re
-import getpass
 from datetime import datetime
 
 class DB():
