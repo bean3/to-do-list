@@ -14,7 +14,5 @@ setup(
 	        'potatofield=potatodata.potato:run'
 	    ]
 	},
-	classifiers      = [
-        'Programming Language :: Python :: 3.6'
-    ]
+	classifiers=['Programming Language :: Python :: 3.6']
 )
