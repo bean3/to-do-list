@@ -10,7 +10,9 @@ we develop for who can use console
 # How to download
 first you nead**python(version>=3.6)**    
 second you have yo download pip **(python install pip)**  
-third jusy download! **(python install potatotodo)**  
+third jusy download! **(python install potatotodo)**
+
+If you prepare all but you can't download please typing this -> **pip3 install potatotodo**
 
 
 ## --help  
