@@ -14,6 +14,7 @@ third jusy download! **(python install potatotodo)**
 
 
 ## --help  
+potato =           Print All.  
 potato --help =    Show this message and exit.  
 potato --mk =      Make a new plan: [descr.] [due] [category]  
 potato --rm =      Remove your plan: [number]  
