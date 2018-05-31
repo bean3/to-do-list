@@ -62,7 +62,13 @@ class Plan():
 					descr = row[1] if len(row[1]) <= 15 else row[1][:12] + "..."
 					due = row[2]
 					cat = row[3] if len(row[3]) <= 10 else row[3][:7] + "..."
-					fin = "Done" if row[4] == 1 else "In Progress"
+					# fin = "Done" if row[4] == 1 else "In Progress"
+					if row[4] == 1:
+						fin = "Done"
+					elif row[4] == 2:
+						fin = "Overdue"
+					else:
+						fin = "In Progress"
 					curCat = self.selectedCat if len(self.selectedCat) <= 10 else self.selectedCat[:7] + "..."
 
 					print(f"| {num:3} | {descr:15} | {due} | {cat:10} | {fin:11} |")

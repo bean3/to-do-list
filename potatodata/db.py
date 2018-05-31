@@ -45,6 +45,6 @@ class DB():
 
 		if self.invalidDue:
 			for i in range(0,len(self.invalidDue)):
-				sql = "delete from todo where id = ?"
-				self.cur.execute(sql,(self.invalidDue[i],))
+				sql = "update todo set finished = ? where id = ?"
+				self.cur.execute(sql,(2,self.invalidDue[i],))
 				self.conn.commit()

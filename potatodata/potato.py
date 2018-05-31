@@ -23,6 +23,7 @@ from .plan import Plan
 @click.option('--cat', 'p_opt', flag_value='category', help='Print the plans for category which you will select')
 @click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
 @click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
+@click.option('--od', 'p_opt', flag_value='overdue', help='Print your overdue plans')
 
 def run(mk, rm, mod, find, det, pg, p_opt):
 	db = DB()
