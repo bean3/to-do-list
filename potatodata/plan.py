@@ -21,6 +21,7 @@ class Plan():
 		self.printOption = {
 		'unfinished': "select * from todo where finished=0",
 		'finished': "select * from todo where finished=1",
+		'overdue': "select * from todo where finished=2",
 		'category': f"select * from todo where category='{self.selectedCat}'" if p_opt == 'category' else None
 		}.get(p_opt, defaultPrintOption)
 
