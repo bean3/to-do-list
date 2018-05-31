@@ -14,16 +14,16 @@ third jusy download! **(python install potatotodo)**
 
 
 ## --help  
-python potato.exe --help =    Show this message and exit.  
-python potato.exe --mk =      Make a new plan: [descr.] [due] [category]  
-python potato.exe --rm =      Remove your plan: [number]  
-python potato.exe --mod =     modofy your plan: [number]  
-python potato.exe --find =    Find your plan: [text]  
-python potato.exe --det =     Show details of plan: [number]  
-python potato.exe --pg =      Print the page of which tou enter: [page]  
-python potato.exe --cat =     Print the plans for category which you will selcet  
-python potato.exe --uf =      Print your unfinished plans  
-python potato.exe --f =       Print your finished plans  
+potato --help =    Show this message and exit.  
+potato --mk =      Make a new plan: [descr.] [due] [category]  
+potato --rm =      Remove your plan: [number]  
+potato --mod =     modofy your plan: [number]  
+potato --find =    Find your plan: [text]  
+potato --det =     Show details of plan: [number]  
+potato --pg =      Print the page of which tou enter: [page]  
+potato --cat =     Print the plans for category which you will selcet  
+potato --uf =      Print your unfinished plans  
+potato --f =       Print your finished plans  
 
 ### If you need more information please comment here or refer to setup.py !
 
