@@ -1,6 +1,6 @@
 from sys import exit
-from .category import Category
-from .page import Page
+from category import Category
+from page import Page
 
 class Plan():
 	def __init__(self, db, pg, p_opt):
