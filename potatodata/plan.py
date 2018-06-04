@@ -22,6 +22,7 @@ class Plan():
 		self.printOption = {
 		'unfinished': "select * from todo where finished=0",
 		'finished': "select * from todo where finished=1",
+		'overdue': "select * from todo where finished=2",
 		'category': f"select * from todo where category='{self.selectedCat}'" if p_opt == 'category' else None
 		}.get(p_opt, defaultPrintOption)
 
@@ -65,13 +66,18 @@ class Plan():
 					descr = row[1] if len(row[1]) <= 15 else row[1][:12] + "..."
 					due = row[2]
 					cat = row[3] if len(row[3]) <= 10 else row[3][:7] + "..."
+
+					# fin = "Done" if row[4] == 1 else "In Progress"
 					if row[4] == 1:
 						fin = "Done"
 						finColor = Fore.GREEN
+					elif row[4] == 2:
+						fin = "Overdue"
+						finColor = Fore.Yellow
 					else:
-						fin = "In progress"
+						fin = "In Progress"
 						finColor = Fore.RED
-
+						
 					curCat = self.selectedCat if len(self.selectedCat) <= 10 else self.selectedCat[:7] + "..."
 
 					print(f"| {num:3} | {descr:15} | {due} | {cat:10} | {finColor}{fin:11}{Fore.RESET} |")

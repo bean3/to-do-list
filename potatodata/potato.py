@@ -8,6 +8,7 @@ from modify import Modify
 from find import Find
 from detail import Detail
 from plan import Plan
+from version import Version
 
 @click.command()
 
@@ -23,6 +24,9 @@ from plan import Plan
 @click.option('--cat', 'p_opt', flag_value='category', help='Print the plans for category which you will select')
 @click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
 @click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
+@click.option('--od', 'p_opt', flag_value='overdue', help='Print your overdue plans')
+@click.option('--version', is_flag = True, help='Print version')
+
 
 def run(mk, rm, mod, find, det, pg, p_opt):
 	db = DB()
@@ -40,6 +44,8 @@ def run(mk, rm, mod, find, det, pg, p_opt):
 		cliOption = Find(db, find)
 	elif det:
 		cliOption = Detail(db, det)
+	elif version:
+		cliOption = Version()
 	elif p_opt:
 		printOption = p_opt
 
