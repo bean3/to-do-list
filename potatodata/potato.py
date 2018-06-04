@@ -28,7 +28,7 @@ from version import Version
 @click.option('--version', is_flag = True, help='Print version')
 
 
-def run(mk, rm, mod, find, det, pg, p_opt):
+def run(mk, rm, mod, find, det, version, pg, p_opt):
 	db = DB()
 	cliOption = None
 	printOption = None
