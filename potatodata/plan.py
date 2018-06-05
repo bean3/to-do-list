@@ -1,6 +1,13 @@
+from colorama import Fore, Back, Style
 from sys import exit
 from .category import Category
 from .page import Page
+
+def menu(name):
+	return f"{Fore.RESET}{name}{Fore.LIGHTBLACK_EX}"
+
+def bar():
+	return f"{Fore.LIGHTBLACK_EX}|{Fore.RESET}"
 
 class Plan():
 	def __init__(self, db, pg, p_opt):
@@ -36,8 +43,7 @@ class Plan():
 		if self.rows and (self.page.isValid() or not self.page.isActivated()):
 
 			print(
-				"\n"
-				"                         P O T A T O F I E L D                         ")
+				f"{Back.BLACK}                         {Fore.LIGHTYELLOW_EX}P O T A T O {Fore.LIGHTGREEN_EX}F I E L D                         {Style.RESET_ALL}")
 			
 			for pageNum in range(1, self.page.maxPageNum + 1):
 
@@ -46,9 +52,11 @@ class Plan():
 					continue
 
 				print(
+					Fore.LIGHTBLACK_EX +
 					"=======================================================================\n"
-					"| No. |   Description   |       Due        |  Category  |   Status    |\n"
-					"=======================================================================")
+					"| "+menu("No.")+" |   "+menu("Description")+"   |       "+menu("Due")+"        |  "+menu("Category")+"  |   "+menu("Status")+"    |\n"
+					"======================================================================="
+					+ Fore.RESET)
 
 				rowIndex = (pageNum - 1) * self.page.rowsinPage
 				for row in self.rows[rowIndex:rowIndex + self.page.rowsinPage]:
@@ -63,21 +71,25 @@ class Plan():
 					descr = row[1] if len(row[1]) <= 15 else row[1][:12] + "..."
 					due = row[2]
 					cat = row[3] if len(row[3]) <= 10 else row[3][:7] + "..."
+
 					# fin = "Done" if row[4] == 1 else "In Progress"
 					if row[4] == 1:
 						fin = "Done"
+						finColor = Fore.GREEN
 					elif row[4] == 2:
 						fin = "Overdue"
+						finColor = Fore.YELLOW
 					else:
 						fin = "In Progress"
+						finColor = Fore.RED
+						
 					curCat = self.selectedCat if len(self.selectedCat) <= 10 else self.selectedCat[:7] + "..."
 
-					print(f"| {num:3} | {descr:15} | {due} | {cat:10} | {fin:11} |")
+					print(bar()+f" {num:3} "+bar()+f" {descr:15} "+bar()+f" {due} "+bar()+f" {cat:10} "+bar()+f" {finColor}{fin:11}{Fore.RESET} "+bar())
 
 				print(
-					"=======================================================================\n"
-					f"Category : {curCat:10}                                     Page {pageNum:03}/{self.page.maxPageNum:03}"
-					"\n")
+					f"{Fore.LIGHTBLACK_EX}======================================================================={Fore.RESET}\n"
+					f"{Back.BLACK}{Fore.LIGHTWHITE_EX} Category : {Fore.LIGHTMAGENTA_EX}{curCat:10}{Fore.LIGHTWHITE_EX}                                    Page {Fore.LIGHTMAGENTA_EX}{pageNum:03}{Fore.LIGHTWHITE_EX}/{self.page.maxPageNum:03} {Style.RESET_ALL}")
 
 		else:
 

@@ -7,4 +7,5 @@ from .modify import Modify
 from .page import Page
 from .plan import Plan
 from .remove import Remove
+from .version import Version
 from .potato import run
