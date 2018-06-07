@@ -1,14 +1,15 @@
 import sqlite3
 import click
 
-from .db import DB
-from .make import Make
-from .remove import Remove
-from .modify import Modify
-from .find import Find
-from .detail import Detail
-from .plan import Plan
-from .version import Version
+from db import DB
+from make import Make
+from remove import Remove
+from modify import Modify
+from find import Find
+from detail import Detail
+from plan import Plan
+from version import Version
+from month import Month
 
 @click.command()
 
@@ -18,6 +19,7 @@ from .version import Version
 @click.option('--mod', help='Modify your plan: [number]')
 @click.option('--find', type=str, help='Find your plan: [text]')
 @click.option('--det', type=click.IntRange(1,), help='Show details of plan: [number]')
+@click.option('--month', type=click.IntRange(1,12), help='Show your monthly plan: [Month]')
 
 #Printing options
 @click.option('--pg', type=click.IntRange(0,), default=0, help='Print the page of which you enter: [page]')
@@ -28,7 +30,7 @@ from .version import Version
 @click.option('--version', is_flag = True, help='Print version')
 
 
-def run(mk, rm, mod, find, det, version, pg, p_opt):
+def run(mk, rm, mod, find, det, version, pg, p_opt, month):
 	db = DB()
 	cliOption = None
 	printOption = None
@@ -44,6 +46,8 @@ def run(mk, rm, mod, find, det, version, pg, p_opt):
 		cliOption = Find(db, find)
 	elif det:
 		cliOption = Detail(db, det)
+	elif month:
+		cliOption = Month(db, month)
 	elif version:
 		cliOption = Version()
 	elif p_opt:
