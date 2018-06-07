@@ -1,4 +1,4 @@
-from colorama import Fore, Back, Style
+from colorama import Fore, Back, Style, init
 from sys import exit
 from .category import Category
 from .page import Page
@@ -11,6 +11,8 @@ def bar():
 
 class Plan():
 	def __init__(self, db, pg, p_opt):
+
+		init()
 
 		#Default settings
 		defaultPrintOption = "select * from todo where 1"
@@ -43,7 +45,11 @@ class Plan():
 		if self.rows and (self.page.isValid() or not self.page.isActivated()):
 
 			print(
-				f"{Back.BLACK}                         {Fore.LIGHTYELLOW_EX}P O T A T O {Fore.LIGHTGREEN_EX}F I E L D                         {Style.RESET_ALL}")
+				f"{Back.BLACK}                         {Fore.LIGHTYELLOW_EX}P O T A T O {Fore.LIGHTGREEN_EX}F I E L D                         {Style.RESET_ALL}\n"
+				+ Fore.LIGHTBLACK_EX +
+				"=======================================================================\n"
+				"| "+menu("No.")+" |   "+menu("Description")+"   |       "+menu("Due")+"        |  "+menu("Category")+"  |   "+menu("Status")+"    |"
+				+ Fore.RESET)
 			
 			for pageNum in range(1, self.page.maxPageNum + 1):
 
@@ -51,12 +57,7 @@ class Plan():
 				if self.page.isActivated() and not self.page.isSelectedPage(pageNum):
 					continue
 
-				print(
-					Fore.LIGHTBLACK_EX +
-					"=======================================================================\n"
-					"| "+menu("No.")+" |   "+menu("Description")+"   |       "+menu("Due")+"        |  "+menu("Category")+"  |   "+menu("Status")+"    |\n"
-					"======================================================================="
-					+ Fore.RESET)
+				print(Fore.LIGHTBLACK_EX + "=======================================================================" + Fore.RESET)
 
 				rowIndex = (pageNum - 1) * self.page.rowsinPage
 				for row in self.rows[rowIndex:rowIndex + self.page.rowsinPage]:
@@ -89,7 +90,7 @@ class Plan():
 
 				print(
 					f"{Fore.LIGHTBLACK_EX}======================================================================={Fore.RESET}\n"
-					f"{Back.BLACK}{Fore.LIGHTWHITE_EX} Category : {Fore.LIGHTMAGENTA_EX}{curCat:10}{Fore.LIGHTWHITE_EX}                                    Page {Fore.LIGHTMAGENTA_EX}{pageNum:03}{Fore.LIGHTWHITE_EX}/{self.page.maxPageNum:03} {Style.RESET_ALL}")
+					f"{Back.BLACK}{Fore.LIGHTWHITE_EX} Category : {Fore.LIGHTMAGENTA_EX}{curCat}{Fore.LIGHTWHITE_EX}                                    Page {Fore.LIGHTMAGENTA_EX}{pageNum:03}{Fore.LIGHTWHITE_EX}/{self.page.maxPageNum:03} {Style.RESET_ALL}")
 
 		else:
 

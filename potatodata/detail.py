@@ -30,13 +30,19 @@ class Detail():
 		due = self.selectedRow[0][2]
 		cat = self.selectedRow[0][3]
 		fin = self.selectedRow[0][4]
+		if fin == 0:
+			stat = "In progress\n"
+		elif fin == 1:
+			stat = "Done\n"
+		elif fin == 2:
+			stat = "Overdue\n"
 
 		print(
 			"\nNo. ", num,
 			"\nDescription : ", descr,
 			"\nDue : ", due,
 			"\nCategory : ", cat,
-			"\nStatus : ", "Done\n" if fin == 1 else "In progress\n", sep = "")
+			"\nStatus : ", stat, sep = "")
 
 
 

@@ -14,10 +14,14 @@ class Remove():
 			print("\nInvalid number :(\n")
 			return False
 
-
 	def execute(self):
 		sql = "delete from todo where id=?"
 		task = (self.planNumber,)
 		self.cur.execute(sql, task)
+		self.update()
 		self.conn.commit()
 		print("\nYour plan has been successfully removed!\n")
+
+	def update(self):
+		sql = "update todo set id=id-1 where id >" + str(self.planNumber)
+		self.cur.execute(sql)

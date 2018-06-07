@@ -10,10 +10,14 @@ we develop for who can use console
 # How to download
 first you nead**python(version>=3.6)**    
 second you have yo download pip **(python install pip)**  
-third jusy download! **(python install potatotodo)**
+third you have to download colorama **(pip install colorama)**  
+finally jusy download! **(python install potatotodo)**
 
-If you prepare all but you can't download please typing this -> **pip3 install potatotodo**
+If you prepare all but you can't download please typing this -> **pip3 install potatotodo**  
 
+# How to upgrade  
+just typing -> **(pip install —upgrade potatotodo)**  
+if do not work, please typing -> **(pip uninstall potatotodo)**  
 
 ## --help  
 potato =           Print All.  
@@ -29,7 +33,7 @@ potato --uf =      Print your unfinished plans
 potato --f =       Print your finished plans  
 
 ### If you need more information please comment here or refer to setup.py !
-
+[LICENSE](https://github.com/bean3/to-do-list/blob/master/LICENSE)
 
 ### Developers
 [Hyunjun Lee](https://github.com/Alpacadabra/to-do-list) , [Kim Yejun](https://github.com/kyj0701/to-do-list) , [Lee je shin](https://github.com/BeautifulTommorow/to-do-list) , [lee hye jin](https://github.com/bean3/to-do-list) , [Kim tae O](https://github.com/xodh/to-do-list)
