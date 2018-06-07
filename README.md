@@ -13,8 +13,11 @@ second you have yo download pip **(python install pip)**
 third you have to download colorama **(pip install colorama)**  
 finally jusy download! **(python install potatotodo)**
 
-If you prepare all but you can't download please typing this -> **pip3 install potatotodo**
+If you prepare all but you can't download please typing this -> **pip3 install potatotodo**  
 
+# How to upgrade  
+just typing -> **(pip install —upgrade potatotodo)**  
+if do not work, please typing -> **(pip uninstall potatotodo)**  
 
 ## --help  
 potato =           Print All.  
