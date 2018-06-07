@@ -29,7 +29,7 @@ potato --uf =      Print your unfinished plans
 potato --f =       Print your finished plans  
 
 ### If you need more information please comment here or refer to setup.py !
-
+[LICENSE](https://github.com/bean3/to-do-list/blob/master/LICENSE)
 
 ### Developers
 [Hyunjun Lee](https://github.com/Alpacadabra/to-do-list) , [Kim Yejun](https://github.com/kyj0701/to-do-list) , [Lee je shin](https://github.com/BeautifulTommorow/to-do-list) , [lee hye jin](https://github.com/bean3/to-do-list) , [Kim tae O](https://github.com/xodh/to-do-list)
