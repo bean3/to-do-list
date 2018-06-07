@@ -91,7 +91,6 @@ class Plan():
 				print(
 					f"{Fore.LIGHTBLACK_EX}======================================================================={Fore.RESET}\n"
 					f"{Back.BLACK}{Fore.LIGHTWHITE_EX} Category : {Fore.LIGHTMAGENTA_EX}{curCat}{Fore.LIGHTWHITE_EX}                                    Page {Fore.LIGHTMAGENTA_EX}{pageNum:03}{Fore.LIGHTWHITE_EX}/{self.page.maxPageNum:03} {Style.RESET_ALL}")
-
 		else:
 
 			#Same with this : self.rows is empty and given page number is 0
