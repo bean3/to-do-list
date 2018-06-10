@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
 	name='potatotodo',
-	version='1.0.8',
+	version='1.1.0',
 	description='This is very usual todo-list',
 	author = 'Team_potato',
 	url = 'https://github.com/bean3/to-do-list',

@@ -9,7 +9,7 @@ class Find():
 
 	def check(self):
 		if(self.findKey == "%"):
-			print("No matches found")
+			print("\nNo matches found\n")
 			return False
 
 		else:
@@ -19,7 +19,7 @@ class Find():
 			if self.resultRows:
 				return True
 			else:
-				print("No matches found")
+				print("\nNo matches found\n")
 				return False
 
 	def execute(self):

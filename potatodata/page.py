@@ -2,6 +2,7 @@ class Page():
 	def __init__(self, plans, pg):
 
 		#Page settings
+		pg = 0 if pg == None else pg
 		self.selectedPage = pg
 		self.pageActivation = pg != 0
 		self.rowsinPage = 10
