@@ -13,22 +13,25 @@ from .version import Version
 @click.command()
 
 #Basic options
-@click.option('--mk', nargs=3, type=str, help='Make a new plan: [descr.] [due] [category]')
-@click.option('--rm', type=click.IntRange(1,), help='Remove your plan: [number]')
-@click.option('--mod', help='Modify your plan: [number]')
-@click.option('--find', type=str, help='Find your plan: [text]')
-@click.option('--det', type=click.IntRange(1,), help='Show details of plan: [number]')
+@click.option('--mk', nargs=3, type=str, help='Make a new plan.', metavar='[descr.] [due] [cat.]')
+@click.option('--rm', type=click.IntRange(1,), help='Remove your plan.', metavar='[num.]')
+@click.option('--mod', help='Modify your plan.', metavar='[num.]')
+@click.option('--find', type=str, help='Find your plan.', metavar='[str.]')
+@click.option('--det', type=click.IntRange(1,), help='Show details of selected plan.', metavar='[num.]')
 
 #Printing options
-@click.option('--pg', type=click.IntRange(0,), default=0, help='Print the page of which you enter: [page]')
-@click.option('--cat', 'p_opt', flag_value='category', help='Print the plans for category which you will select')
-@click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans')
-@click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans')
-@click.option('--od', 'p_opt', flag_value='overdue', help='Print your overdue plans')
-@click.option('--version', is_flag = True, help='Print version')
+@click.option('--pg', type=click.IntRange(0,), default=0, help='Print the page of which you enter.', metavar='[num.]')
+@click.option('--cat', 'p_opt', flag_value='category', help='Select the category and print the plans for it.')
+@click.option('--uf', 'p_opt', flag_value='unfinished', help='Print your unfinished plans.')
+@click.option('--f', 'p_opt', flag_value='finished', help='Print your finished plans.')
+@click.option('--od', 'p_opt', flag_value='overdue', help='Print your overdue plans.')
+@click.option('--ver', is_flag = True, help='Print the current version.')
 
 
-def run(mk, rm, mod, find, det, version, pg, p_opt):
+def run(mk, rm, mod, find, det, ver, pg, p_opt):
+	"""Thank you for using Potatofield!\n
+	To get more information, please visit our wiki:\n
+	https://github.com/bean3/to-do-list/wiki"""
 	db = DB()
 	cliOption = None
 	printOption = None
@@ -44,7 +47,7 @@ def run(mk, rm, mod, find, det, version, pg, p_opt):
 		cliOption = Find(db, find)
 	elif det:
 		cliOption = Detail(db, det)
-	elif version:
+	elif ver:
 		cliOption = Version()
 	elif p_opt:
 		printOption = p_opt
