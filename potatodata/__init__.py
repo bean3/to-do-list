@@ -9,3 +9,4 @@ from .plan import Plan
 from .remove import Remove
 from .version import Version
 from .potato import run
+from .month import Month

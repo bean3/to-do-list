@@ -9,15 +9,18 @@ from .find import Find
 from .detail import Detail
 from .plan import Plan
 from .version import Version
+from .month import Month
 
 @click.command()
 
 #Basic options
+
 @click.option('--mk', nargs=3, type=str, help='Make a new plan.', metavar='[descr.] [due] [cat.]')
 @click.option('--rm', type=click.IntRange(1,), help='Remove your plan.', metavar='[num.]')
 @click.option('--mod', help='Modify your plan.', metavar='[num.]')
 @click.option('--find', type=str, help='Find your plan.', metavar='[str.]')
 @click.option('--det', type=click.IntRange(1,), help='Show details of selected plan.', metavar='[num.]')
+@click.option('--month', type=click.IntRange(1,12), help='Show your monthly plan: [Month]')
 
 #Printing options
 @click.option('--pg', type=click.IntRange(0,), default=0, help='Print the page of which you enter.', metavar='[num.]')
@@ -28,7 +31,8 @@ from .version import Version
 @click.option('--ver', is_flag = True, help='Print the current version.')
 
 
-def run(mk, rm, mod, find, det, ver, pg, p_opt):
+
+def run(mk, rm, mod, find, det, ver, pg, p_opt, month):
 	"""Thank you for using Potatofield!\n
 	To get more information, please visit our wiki:\n
 	https://github.com/bean3/to-do-list/wiki"""
@@ -47,6 +51,8 @@ def run(mk, rm, mod, find, det, ver, pg, p_opt):
 		cliOption = Find(db, find)
 	elif det:
 		cliOption = Detail(db, det)
+	elif month:
+		cliOption = Month(db, month)
 	elif ver:
 		cliOption = Version()
 	elif p_opt:
