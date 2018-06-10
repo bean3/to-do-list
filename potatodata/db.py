@@ -38,7 +38,8 @@ class DB():
 
 				for i in range(1,6):
 					if int(match1.group(i)) < int(match2.group(i)):
-						self.invalidDue.append(row[0])
+						if row[4] != 1:
+							self.invalidDue.append(row[0])
 						break
 					elif int(match1.group(i)) > int(match2.group(i)):
 						break

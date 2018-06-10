@@ -12,7 +12,7 @@ class Category():
 		if self.allCats:
 			return False
 		else:
-			print("Please make a plan by using --mk [descr.] [due] [cat.] first.")
+			print("\nPlease make a plan by using --mk [descr.] [due] [cat.] first.\n")
 			return True
 
 	#Return set of categories

@@ -3,14 +3,39 @@ from datetime import datetime
 
 class Make():
 	def __init__(self, db, input_data):
-		self.inputData = input_data
 		self.cur = db.cur
 		self.conn = db.conn
+		self.inputData = input_data
+
+		#Needs
+		self.need = []
+		self.need += ['what'] if not self.inputData[0] else []
+		self.need += ['due'] if not self.inputData[1] else []
+		self.need += ['cat'] if not self.inputData[2] else []
 
 		#Format settings
 		self.inputFormat1 = r"(\d{4})[-](\d{2})[-](\d{2})[/](\d{2})[:](\d{2})"
 		self.inputFormat2 = r"(\d{4})[-](\d{2})[-](\d{2})\s(\d{2})[:](\d{2})"
 		self.inputLength = 16
+
+	def interactive(self):
+		if 'what' in self.need:
+			descr = input("\nWhat is your plan? : ")
+			while not descr:
+				descr = input("\nWhat is your plan? : ")
+			self.inputData[0] = descr
+
+		if 'due' in self.need:
+			due = input("\nWhen is the due date? : ")
+			self.inputData[1] = due
+			while not self.check():
+				self.inputData[1] = input("\nWhen is the due date? : ")
+
+		if 'cat' in self.need:
+			cat = input("\nWhat is the category of this plan? : ")
+			while not cat:
+				cat = input("\nWhat is the category of this plan? : ")
+			self.inputData[2] = cat
 
 	#Check whether the input satisfies the format
 	def check(self):
