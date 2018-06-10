@@ -1,7 +1,7 @@
 from colorama import Fore, Back, Style, init
 from sys import exit
-from category import Category
-from page import Page
+from .category import Category
+from .page import Page
 
 def menu(name):
 	return f"{Fore.RESET}{name}{Fore.LIGHTBLACK_EX}"
