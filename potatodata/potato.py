@@ -9,6 +9,7 @@ from .find import Find
 from .detail import Detail
 from .plan import Plan
 from .version import Version
+from .month import Month
 
 global db
 db = DB()
@@ -78,6 +79,13 @@ def find(keyword):
 def detail(num):
 	"""Show the details of selected plan."""
 	cmd = Detail(db, num)
+	if cmd.check():
+		cmd.execute()
+
+@run.command()
+@click.argument('num', type=click.IntRange(1,12))
+def month(num):
+	cmd = Month(db, num)
 	if cmd.check():
 		cmd.execute()
 

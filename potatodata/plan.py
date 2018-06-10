@@ -100,4 +100,4 @@ class Plan():
 
 			#Same with this : given page number is not valid
 			else:
-				print("\nInvalid page number :(\n")			
+				print("\nInvalid page number :(\n")
