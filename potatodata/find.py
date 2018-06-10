@@ -1,4 +1,4 @@
-from detail import Detail
+from .detail import Detail
 
 class Find():
 	def __init__(self, db, key):
