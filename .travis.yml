@@ -1,16 +1,23 @@
+sudo: false
 language: python
-
 python:
-  - "3.6.5"
-  
-cache: pip
-
+  - "3.6"
+# command to install dependencies
 install:
-  - pip install codecov
-  - pip install asciimatics
-  
+  - pip install click
+  - pip install colorama
+  - pip install -e .
+# command to run tests
 script:
-  - coverage run 
-
-after_success:
-  - codecov
+  - potato version
+  - potato make —what study1 —due 2018-07-05/18:00 —category work
+  - potato show --pg 1
+  - potato show --uf
+  - potato remove 1
+  - potato make —what study2 —due 2018-07-05/18:00 —category work
+  - potato make —what study3 —due 2018-07-05/18:00 —category work
+  - potato show
+  - potato remove --all
+  - potato make —what study4 —due 2018-07-05/18:00 —category work
+  - potato show
+  - potato detail 4
