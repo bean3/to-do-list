@@ -1,11 +1,11 @@
 sudo: false
 language: python
-python: 
+python:
   - "3.6"
 # command to install dependencies
 install:
   - pip install click
-  - pip install colorama 
+  - pip install colorama
   - pip install -e .
 # command to run tests
 script:
@@ -21,5 +21,3 @@ script:
   - potato make —what study4 —due 2018-07-05/18:00 —category work
   - potato show
   - potato detail 4
-  - potato show
-  - potato show
