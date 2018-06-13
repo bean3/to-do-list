@@ -4,6 +4,7 @@ import getpass
 from datetime import datetime
 
 from pathlib import Path
+home_dir = str(Path.home())
 
 class DB():
 	def __init__(self):
@@ -13,7 +14,7 @@ class DB():
 
 		#Initial settings for sqlite
 		username = getpass.getuser() + "/Documents"
-		self.conn = sqlite3.connect(str(Path.home()) + "/Schedule.db")
+		self.conn = sqlite3.connect(home_dir+"/Schedule.db")
 		self.cur = self.conn.cursor()
 		table_create_sql = """create table if not exists todo (
 					id integer primary key autoincrement,

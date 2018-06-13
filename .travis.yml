@@ -1,9 +1,25 @@
+sudo: false
 language: python
 python:
   - "3.6"
-install: 
-  - "pip install pytest"
-  - "pip install click"
-  - "pip install colorama"
-  - "pip install -e ."
-script : pytest test.py
+# command to install dependencies
+install:
+  - pip install pytest
+  - pip install click
+  - pip install colorama
+  - pip install -e .
+# command to run tests
+script:
+  - potato version
+  - potato make --what study1 --due 2018-07-05/18:00 --cat work
+  - potato show --pg 1
+  - potato show --uf
+  - potato remove 1
+  - potato make --what study1 --due 2018-07-05/18:00 --cat work
+  - potato make --what study1 --due 2018-07-05/18:00 --cat work
+  - potato show
+  - potato remove --all
+  - potato make --what study1 --due 2018-07-05/18:00 --cat work
+  - potato show
+  - potato detail 4
+  - pytest test.py
