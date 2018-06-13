@@ -21,3 +21,4 @@ script:
   - potato make —what study4 —due 2018-07-05/18:00 —category work
   - potato show
   - potato detail 4
+  - potato show
