@@ -23,17 +23,20 @@ just typing -> **(pip install —upgrade potatotodo)**
 if do not work, please type -> **(pip uninstall potatotodo)**  
 
 ## --help  
-potato =           Print All.  
-potato --help =    Show this message and exit.  
-potato --mk =      Make a new plan: [descr.] [due] [category]  
-potato --rm =      Remove your plan: [number]  
-potato --mod =     modofy your plan: [number]  
-potato --find =    Find your plan: [text]  
-potato --det =     Show details of plan: [number]  
-potato --pg =      Print the page of which tou enter: [page]  
-potato --cat =     Print the plans for category which you will selcet  
-potato --uf =      Print your unfinished plans  
-potato --f =       Print your finished plans  
+* ` potato ` : Show Main Page & Introduction.  
+* ` potato --help ` : Show help.    
+ You can also use with ` show ` and ` remove ` command, like ` potato show --help `.
+* ` potato make ` : Make a new plan. Questions for additional input will appear.    
+* ` potato show ` : Print all your plans.  
+- > ` potato show --pg [number] ` : Print the page of which you entered.  
+- > ` potato show --cat `: Show All categories and print category that only you want to find.  
+- > ` potato show --uf ` : Print your unfinished plans.  
+- > ` potato show --f ` : Print your finished plans.  
+* ` potato remove [index]  `: Remove your plan that index number is [number]. 
+- > ` potato remove --all ` : Remove all your plans.
+* ` potato modify  [number] ` : Modify your plan that index number is [number].
+* ` potato find [text] ` : Find your plan that includes [text].
+* ` potato detail [number] ` : Show details of plan that index number is [number].  
 
 ### If you need more information please comment here or refer to setup.py !
 [LICENSE](https://github.com/bean3/to-do-list/blob/master/LICENSE)
