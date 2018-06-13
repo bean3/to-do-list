@@ -11,7 +11,9 @@ we develop for who can use console
 
 # How to download
 first you nead **python(version>=3.6)**
+
 second you have to download pip **(python install pip)**
+
 third you have to download click **(pip install click)**
 fourth you have to download colorama **(pip install colorama)**  
 finally just download! **(python install potatotodo)**
