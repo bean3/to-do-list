@@ -55,6 +55,12 @@ class Make():
 		timeNow = datetime.now()
 		match2 = regular2.match(str(timeNow))
 		inputDue = regular.match(self.inputData[1])
+		if (int(inputDue.group(2)) not in range(1,13) or
+			int(inputDue.group(3)) not in range(1,32) or
+			int(inputDue.group(4)) not in range(0,24) or
+			int(inputDue.group(5)) not in range(0,60)):
+				print("This todo is not valid!")
+				return False
 		for i in range(1, 6):
 			if int(inputDue.group(i)) < int(match2.group(i)):
 				print("This todo is not valid!")
