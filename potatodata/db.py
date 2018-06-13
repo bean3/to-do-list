@@ -3,6 +3,8 @@ import re
 import getpass
 from datetime import datetime
 
+from pathlib import Path
+
 class DB():
 	def __init__(self):
 		self.inputFormat1 = r"(\d{4})[-](\d{2})[-](\d{2})[/](\d{2})[:](\d{2})"
@@ -11,7 +13,7 @@ class DB():
 
 		#Initial settings for sqlite
 		username = getpass.getuser() + "/Documents"
-		self.conn = sqlite3.connect("/Users/"+username+"/Schedule.db")
+		self.conn = sqlite3.connect(str(Path.home()) + "/Schedule.db")
 		self.cur = self.conn.cursor()
 		table_create_sql = """create table if not exists todo (
 					id integer primary key autoincrement,
