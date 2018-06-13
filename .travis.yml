@@ -3,7 +3,9 @@ language: python
 python: 
   - "3.6"
 # command to install dependencies
-install: 
+install:
+  - pip install click
+  - pip install colorama 
   - pip install -e .
 # command to run tests
 script:
