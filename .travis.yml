@@ -10,14 +10,14 @@ install:
 # command to run tests
 script:
   - potato version
-  - potato make —what study1 —due 2018-07-05/18:00 —category work
+  - potato make —what study1 —due 2018-07-05/18:00 —cat work
   - potato show --pg 1
   - potato show --uf
   - potato remove 1
-  - potato make —what study2 —due 2018-07-05/18:00 —category work
-  - potato make —what study3 —due 2018-07-05/18:00 —category work
+  - potato make —what study2 —due 2018-07-05/18:00 —cat notwork
+  - potato make —what study3 —due 2018-07-05/18:00 —cat work
   - potato show
   - potato remove --all
-  - potato make —what study4 —due 2018-07-05/18:00 —category work
+  - potato make —what study4 —due 2018-07-05/18:00 —cat notwork
   - potato show
   - potato detail 4
