@@ -15,7 +15,9 @@ first you nead **python(version>=3.6)**
 second you have to download pip **(python install pip)**
 
 third you have to download click **(pip install click)**
+
 fourth you have to download colorama **(pip install colorama)**  
+
 finally just download! **(python install potatotodo)**
 
 If you prepare all but you can't download please type this -> **pip3 install potatotodo**  
