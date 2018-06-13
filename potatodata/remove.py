@@ -23,10 +23,5 @@ class Remove():
 			self.cur.execute("delete from todo")
 		else:
 			self.cur.execute("delete from todo where id=?", (self.planNumber,))
-		self.update()
 		self.conn.commit()
 		print("\nYour plan" + ("s have" if self.deleteAll == True else " has") + " been successfully removed!\n")
-
-	def update(self):
-		sql = "update todo set id=id-1 where id >" + str(self.planNumber)
-		self.cur.execute(sql)

@@ -9,7 +9,6 @@ from .find import Find
 from .detail import Detail
 from .plan import Plan
 from .version import Version
-from .month import Month
 
 global db
 db = DB()
@@ -67,10 +66,11 @@ def modify(num, what, due, cat, fin):
 		print("\nInvalid number :(\n")
 
 @run.command()
-@click.argument('keyword', type=str)
-def find(keyword):
+@click.option('--what', type=str, metavar='<TEXT>', help='Search the plans which contain the keyword in description.')
+@click.option('--month', type=click.IntRange(1,12), metavar='<NUM>', help='Search the plans of the month you entered.')
+def find(what, month):
 	"""Search the plan containing the input keyword."""
-	cmd = Find(db, keyword)
+	cmd = Find(db, what, month)
 	if cmd.check():
 		cmd.execute()
 
@@ -79,13 +79,6 @@ def find(keyword):
 def detail(num):
 	"""Show the details of selected plan."""
 	cmd = Detail(db, num)
-	if cmd.check():
-		cmd.execute()
-
-@run.command()
-@click.argument('num', type=click.IntRange(1,12))
-def month(num):
-	cmd = Month(db, num)
 	if cmd.check():
 		cmd.execute()
 
