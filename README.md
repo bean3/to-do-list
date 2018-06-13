@@ -8,16 +8,17 @@ we develop for who can use console
 **but if you can't use console don't worry we prepared --help**
 
 # How to download
-first you nead**python(version>=3.6)**    
-second you have yo download pip **(python install pip)**  
-third you have to download colorama **(pip install colorama)**  
-finally jusy download! **(python install potatotodo)**
+first you nead **python(version>=3.6)**
+second you have to download pip **(python install pip)**
+third you have to download click **(pip install click)**
+fourth you have to download colorama **(pip install colorama)**  
+finally just download! **(python install potatotodo)**
 
-If you prepare all but you can't download please typing this -> **pip3 install potatotodo**  
+If you prepare all but you can't download please type this -> **pip3 install potatotodo**  
 
 # How to upgrade  
 just typing -> **(pip install —upgrade potatotodo)**  
-if do not work, please typing -> **(pip uninstall potatotodo)**  
+if do not work, please type -> **(pip uninstall potatotodo)**  
 
 ## --help  
 potato =           Print All.  
