@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bean3/to-do-list.svg?branch=master)](https://travis-ci.org/bean3/to-do-list)
+
 # Hello, we are potato team!
 
 ## Introduce
