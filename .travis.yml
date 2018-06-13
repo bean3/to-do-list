@@ -22,3 +22,4 @@ script:
   - potato show
   - potato detail 4
   - potato show
+  - potato show
