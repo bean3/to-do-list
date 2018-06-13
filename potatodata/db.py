@@ -2,8 +2,10 @@ import sqlite3
 import re
 import getpass
 from datetime import datetime
+
 from pathlib import Path
 home_dir = str(Path.home())
+
 class DB():
 	def __init__(self):
 		self.inputFormat1 = r"(\d{4})[-](\d{2})[-](\d{2})[/](\d{2})[:](\d{2})"

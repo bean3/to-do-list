@@ -4,6 +4,7 @@ python:
   - "3.6"
 # command to install dependencies
 install:
+  - pip install pytest
   - pip install click
   - pip install colorama
   - pip install -e .
@@ -21,3 +22,4 @@ script:
   - potato make --what study1 --due 2018-07-05/18:00 --cat work
   - potato show
   - potato detail 4
+  - pytest test.py
