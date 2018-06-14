@@ -70,6 +70,10 @@ def modify(num, what, due, cat, fin):
 @click.option('--month', type=click.IntRange(1,12), metavar='<NUM>', help='Search the plans of the month you entered.')
 def find(what, month):
 	"""Search the plan containing the input keyword."""
+	if not what and not month:
+		print("There is no given option.")
+		return
+	
 	cmd = Find(db, what, month)
 	if cmd.check():
 		cmd.execute()
