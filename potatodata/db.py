@@ -13,7 +13,6 @@ class DB():
 		self.invalidDue = list()
 
 		#Initial settings for sqlite
-		username = getpass.getuser() + "/Documents"
 		self.conn = sqlite3.connect(home_dir+"/Schedule.db")
 		self.cur = self.conn.cursor()
 		table_create_sql = """create table if not exists todo (
